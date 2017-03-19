@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>SmartSoft - Interferenciador</title>
+    <!-- bower:css -->
+    <link rel="stylesheet" href="/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css" />
+    <link rel="stylesheet" href="/lib/jsoneditor/dist/jsoneditor.min.css" />
+    <!-- endbower -->
+    <!-- bower:js -->
+    <script src="/lib/jquery/dist/jquery.js"></script>
+    <script src="/lib/bootstrap/dist/js/bootstrap.js"></script>
+    <script src="/lib/jsoneditor/dist/jsoneditor.min.js"></script>
+    <!-- endbower -->
+    <!-- inject:css -->
+    <link rel="stylesheet" href="/css/style.css">
+    <!-- endinject -->
+    <!-- inject:js -->
+    <script src="/js/test.js"></script>
+    <!-- endinject -->
+    <!-- Custom styles  -->
+    <link href="css/style.css" rel="stylesheet">
+    <!-- <link rel="shortcut icon" href="img/favicon.ico"> -->
+</head>
+
+<body>
+    <nav class="navbar navbar-fixed-top bg-primary">
+        <div class="container nav-cust text-center">
+            <h3>Inferenciador de Reglas</h3>
+        </div>
+    </nav>
+    <br>
+    <br>
+    <div class="container">
+        <div class="starter-template">
+            <div class="col-md-offset-6 col-md-4 ">
+                <ul class="list-inline">
+                    <li><a href="#" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">Inferenciador</a></li>
+                    <li><a href="#" class="btn btn-success btn-lg" data-toggle="modal" data-target="#myModal2">Crear Regla</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <br>
+    <br>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-offset-2 col-md-8">
+                <table class="table table-striped">
+                    <tr>
+                        <th>Identificador</th>
+                        <th>Nombre</th>
+                        <th>Condición</th>
+                        <th>Operaciones</th>
+                    </tr>
+                    <tr>
+                        <td>9873149187341</td>
+                        <td>Regla 1</td>
+                        <td>"Monto > 1400 & Comercio == Mac"</td>
+                        <td><a href="#">Editar </a><a href="#"> Eliminar</a></td>
+                    </tr>
+                    <tr>
+                        <td>8287345239875</td>
+                        <td>Regla 2</td>
+                        <td>"Monto > 1400 & Comercio == Mac"</td>
+                        <td><a href="#">Editar </a><a href="#"> Eliminar</a></td>
+                    </tr>
+                    <tr>
+                        <td>8723495874234</td>
+                        <td>Regla 3</td>
+                        <td>"Monto > 1400 & Comercio == Mac"</td>
+                        <td><a href="#">Editar </a><a href="#"> Eliminar</a></td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+    <!-- Modal Inferenciador -->
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">Modal title</h4>
+                </div>
+                <div class="modal-body">
+                    <h1>Load and save JSON documents</h1>
+                    <p>
+                        This examples uses HTML5 to load/save local files. Powered by <a href="http://bgrins.github.io/filereader.js/">FileReader.js</a> and
+                        <a href="https://github.com/eligrey/FileSaver.js">FileSaver.js</a>.
+                        <br> Only supported on modern browsers (Chrome, FireFox, IE10+, Safari 6.1+, Opera 15+).
+                    </p>
+                    <p>
+                        Load a JSON document:
+                        <input type="file" id="loadDocument" value="Load" />
+                    </p>
+                    <p>
+                        Save a JSON document:
+                        <input type="button" id="saveDocument" value="Save" />
+                    </p>
+                    <div id="jsoneditor"></div>
+                    <script>
+                    // create the editor
+                    var editor = new JSONEditor(document.getElementById('jsoneditor'));
+
+                    // Load a JSON document
+                    FileReaderJS.setupInput(document.getElementById('loadDocument'), {
+                        readAsDefault: 'Text',
+                        on: {
+                            load: function(event, file) {
+                                editor.setText(event.target.result);
+                            }
+                        }
+                    });
+
+                    // Save a JSON document
+                    document.getElementById('saveDocument').onclick = function() {
+                        // Save Dialog
+                        fname = window.prompt("Save as...");
+
+                        // Check json extension in file name
+                        if (fname.indexOf(".") == -1) {
+                            fname = fname + ".json";
+                        } else {
+                            if (fname.split('.').pop().toLowerCase() == "json") {
+                                // Nothing to do
+                            } else {
+                                fname = fname.split('.')[0] + ".json";
+                            }
+                        }
+                        var blob = new Blob([editor.getText()], {
+                            type: 'application/json;charset=utf-8'
+                        });
+                        saveAs(blob, fname);
+                    };
+                    </script>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-success">Guardar Regla</button>
+                    <button type="button" class="btn btn-info" data-dismiss="modal">Listar Reglas</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Modal Crear Regla -->
+    <div class="modal fade" id="myModal2" tabindex="-1" role="dialog" aria-labelledby="myModal2Label">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModal2Label">Probar Hecho</h4>
+                </div>
+                <div class="modal-body">
+                    <!-- json editor -->
+                    <p>
+                        Switch editor mode using the mode box. Note that the mode can be changed programmatically as well using the method
+                        <code>editor.setMode(mode)</code>, try it in the console of your browser.
+                    </p>
+                    <div id="jsoneditor2"></div>
+                    <script>
+                    var container = document.getElementById('jsoneditor2');
+
+                    var options = {
+                        mode: 'tree',
+                        modes: ['code', 'form', 'text', 'tree', 'view'], // allowed modes
+                        onError: function(err) {
+                            alert(err.toString());
+                        },
+                        onModeChange: function(newMode, oldMode) {
+                            console.log('Mode switched from', oldMode, 'to', newMode);
+                        }
+                    };
+
+                    var json = {
+                        "array": [1, 2, 3],
+                        "boolean": true,
+                        "null": null,
+                        "number": 123,
+                        "object": {
+                            "a": "b",
+                            "c": "d"
+                        },
+                        "string": "Hello World"
+                    };
+
+                    var editor = new JSONEditor(container, options, json);
+                    </script>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Enviar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End of modals -->
+    <!-- test of json editor -->
+    <!-- /.container -->
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <!-- <script src="lib/jquery/dist/jquery.min.js"></script>
+    <script src="lib/bootstrap/dist/js/bootstrap.min.js"></script> -->
+</body>
+
+</html>
