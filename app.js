@@ -21,18 +21,18 @@ app.use(express.static('public'));
 app.use(express.static('src/views'));
 
 //Socket.io code test
-// app.use(express.static(path.join(__dirname,'public')));
+app.use(express.static(path.join(__dirname,'public')));
 
-// io.on('connection',socket=>{
-// 	console.log('new connection made');
+io.on('connection',socket=>{
+	console.log('new connection made');
 
-// 	socket.emit('message-from-server',{
-// 		greeting:'Hello from Server'
-// 	});
-// 	socket.on('message-from-client',msg=>{
-// 		console.log(msg);
-// 	});
-// });
+	socket.emit('message-from-server',{
+		greeting:'Socket.io: Hello from Server'
+	});
+	socket.on('message-from-client',msg=>{
+		console.log(msg);
+	});
+});
 
 //Code in case of using Jade-Pug
 // app.set('views','./src/views');
