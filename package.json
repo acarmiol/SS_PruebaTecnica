@@ -13,7 +13,9 @@
     "body-parser": "^1.17.1",
     "express": "^4.15.2",
     "mongojs": "^2.4.0",
-    "pug": "^2.0.0-beta11"
+    "path": "^0.12.7",
+    "pug": "^2.0.0-beta11",
+    "socket.io": "^1.7.3"
   },
   "devDependencies": {
     "gulp": "^3.9.1",
