@@ -25,6 +25,7 @@
     "gulp-nodemon": "^2.2.1",
     "jshint": "^2.9.4",
     "jshint-stylish": "^2.2.1",
+    "socket.io-client": "^1.7.3",
     "wiredep": "^4.0.0"
   }
 }

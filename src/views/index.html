@@ -15,6 +15,7 @@
     <script src="/lib/jquery/dist/jquery.js"></script>
     <script src="/lib/bootstrap/dist/js/bootstrap.js"></script>
     <script src="/lib/jsoneditor/dist/jsoneditor.min.js"></script>
+    <script src="/lib/socket.io-client/dist/socket.io.js"></script>
     <!-- endbower -->
     <!-- inject:css -->
     <link rel="stylesheet" href="/css/style.css">
@@ -199,8 +200,11 @@
         </div>
     </div>
 
+    
+
+
     <!-- Socket.io Code -->
-    <!-- <script src="../../node_modules/socket.io-client/dist/socket.io.js/"></script>
+    
     <script>
       var socket = io('http://localhost:5000');
       socket.on('message-from-server',function(evt){

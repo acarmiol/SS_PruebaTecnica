@@ -108,7 +108,11 @@ app.delete('api/rules/id:',(req,res,next)=>{
 
 
 // Port 5000
-app.listen(port, function(err) {
-    console.log('server started on port: '+port);
+// app.listen(port, function(err) {
+//     console.log('server started on port: '+port);
+// });
+
+server.listen(port,function(){
+	console.log('listening on port'+port);
 });
  
