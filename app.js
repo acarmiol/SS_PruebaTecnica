@@ -1,9 +1,14 @@
 const express = require('express');
+const app = express();
+const path = require('path');
+const server = require('http').Server(app);
+const io = require('socket.io')(server);
 const bodyParser = require('body-parser');
+
 const mongojs = require('mongojs');
 const db = mongojs('inferenciador',['reglas']);
 
-const app = express();
+
 
 
 const port = 5000;
@@ -14,6 +19,20 @@ app.use(bodyParser.json());
 
 app.use(express.static('public'));
 app.use(express.static('src/views'));
+
+//Socket.io code test
+// app.use(express.static(path.join(__dirname,'public')));
+
+// io.on('connection',socket=>{
+// 	console.log('new connection made');
+
+// 	socket.emit('message-from-server',{
+// 		greeting:'Hello from Server'
+// 	});
+// 	socket.on('message-from-client',msg=>{
+// 		console.log(msg);
+// 	});
+// });
 
 //Code in case of using Jade-Pug
 // app.set('views','./src/views');
@@ -81,7 +100,7 @@ app.delete('api/rules/id:',(req,res,next)=>{
 		if(err){
 			res.send(err);
 		}
-		console.log('Removing Rule...');
+		console.log('Deleting Rule...');
 		res.json(doc);
 	});
 })
