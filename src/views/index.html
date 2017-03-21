@@ -21,7 +21,6 @@
     <link rel="stylesheet" href="/css/style.css">
     <!-- endinject -->
     <!-- inject:js -->
-    <script src="/js/test.js"></script>
     <!-- endinject -->
     <!-- Custom styles  -->
     <link href="css/style.css" rel="stylesheet">
@@ -34,8 +33,8 @@
             <h3>Inferenciador de Reglas</h3>
         </div>
     </nav>
-    <br>
-    <br>
+    
+    <section id="modals">
     <div class="container">
         <div class="starter-template">
             <div class="col-md-offset-6 col-md-4 ">
@@ -46,8 +45,7 @@
             </div>
         </div>
     </div>
-    <br>
-    <br>
+    </section>
     <div class="container">
         <div class="row">
             <div class="col-md-offset-2 col-md-8">
@@ -62,8 +60,9 @@
                         <td>9873149187341</td>
                         <td>Regla 1</td>
                         <td>"Monto > 1400 & Comercio == Mac"</td>
-                        <td><a href="#" class="btn btn-default"><i class="fa fa-pencil-square-o" aria-hidden="true"></i>
- </a>&nbsp; &nbsp;<a href="#" class="btn btn-danger" > <i class="fa fa-times" aria-hidden="true"></i></a></td>
+                        <td><a href="#" class="btn btn-default"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>&nbsp; &nbsp;
+                            <a href="#" class="btn btn-danger"> <i class="fa fa-times" aria-hidden="true"></i></a>
+                        </td>
                     </tr>
                     <tr>
                         <td>8287345239875</td>
@@ -87,23 +86,23 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title" id="myModalLabel">Modal title</h4>
+                    <h4 class="modal-title" id="myModalLabel">Guardar documentos JSON:</h4>
                 </div>
                 <div class="modal-body">
-                    <h1>Load and save JSON documents</h1>
-                    <p>
+                    
+                    <!-- <p>
                         This examples uses HTML5 to load/save local files. Powered by <a href="http://bgrins.github.io/filereader.js/">FileReader.js</a> and
                         <a href="https://github.com/eligrey/FileSaver.js">FileSaver.js</a>.
                         <br> Only supported on modern browsers (Chrome, FireFox, IE10+, Safari 6.1+, Opera 15+).
-                    </p>
+                    </p> -->
                     <p>
-                        Load a JSON document:
-                        <input type="file" id="loadDocument" value="Load" />
+                        Subir documento JSON :
+                        <input type="file" id="loadDocument" value="Load" class="btn btn-default" />
                     </p>
-                    <p>
+                    <!-- <p>
                         Save a JSON document:
-                        <input type="button" id="saveDocument" value="Save" />
-                    </p>
+                        <input type="button" id="saveDocument" value="Save"/>
+                    </p> -->
                     <div id="jsoneditor"></div>
                     <script>
                     // create the editor
@@ -142,7 +141,7 @@
                     </script>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-success">Guardar Regla</button>
+                    <button type="button" class="btn btn-success" id="saveDocument" value="Save">Guardar Regla</button>
                     <button type="button" class="btn btn-info" data-dismiss="modal">Listar Reglas</button>
                 </div>
             </div>
@@ -158,10 +157,10 @@
                 </div>
                 <div class="modal-body">
                     <!-- json editor -->
-                    <p>
+                    <!-- <p>
                         Switch editor mode using the mode box. Note that the mode can be changed programmatically as well using the method
                         <code>editor.setMode(mode)</code>, try it in the console of your browser.
-                    </p>
+                    </p> -->
                     <div id="jsoneditor2"></div>
                     <script>
                     var container = document.getElementById('jsoneditor2');
@@ -199,23 +198,18 @@
             </div>
         </div>
     </div>
-
-    
-
-
     <!-- Socket.io Code -->
-    
     <script>
-      var socket = io('http://localhost:5000');
-      socket.on('message-from-server',function(evt){
+    var socket = io('http://localhost:5000');
+    socket.on('message-from-server', function(evt) {
         document.body.appendChild(
-          document.createTextNode(evt.greeting));
+            document.createTextNode(evt.greeting));
 
-        socket.emit('message-from-client',{
-          greeting:'Socket.io: Hello from Client'
+        socket.emit('message-from-client', {
+            greeting: 'Socket.io: Hello from Client'
         });
-      }); 
-    </script> 
+    });
+    </script>
     <!-- End of modals -->
     <!-- test of json editor -->
     <!-- /.container -->

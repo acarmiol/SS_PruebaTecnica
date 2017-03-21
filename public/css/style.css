@@ -8,7 +8,9 @@ body {
 }
 
 h3 {
-    padding-bottom: 7px;
+    padding-bottom: 12px;
 }
-
-
+#modals{
+	margin-top: 30px;
+	margin-bottom: 40px;
+}
