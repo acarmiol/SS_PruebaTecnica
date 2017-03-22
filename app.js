@@ -18,7 +18,7 @@ app.use(bodyParser.json());
 
 
 app.use(express.static('public'));
-app.use(express.static('src/views'));
+//app.use(express.static('src/views'));
 
 //Socket.io code test
 app.use(express.static(path.join(__dirname,'public')));
@@ -35,12 +35,12 @@ io.on('connection',socket=>{
 });
 
 //Code in case of using Jade-Pug
-// app.set('views','./src/views');
-// app.set('view engine','pug')
-// Routing
-// app.get('/', function(req, res) {
-//     res.render('index');
-// });
+app.set('views','./src/views');
+app.set('view engine','pug')
+//Routing
+app.get('/', function(req, res) {
+    res.render('index');
+});
 
 //Home
 app.get('/',(req,res,next)=>{

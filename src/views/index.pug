@@ -4,41 +4,29 @@ html(lang='en')
     meta(charset='utf-8')
     meta(http-equiv='X-UA-Compatible', content='IE=edge')
     meta(name='viewport', content='width=device-width, initial-scale=1')
-    title SmartSoft - Inferenciador
-    // bower:css
+    title SmartSoft - Interferenciador
     link(rel='stylesheet', href='/lib/bootstrap/dist/css/bootstrap.min.css')
     link(rel='stylesheet', href='/lib/font-awesome/css/font-awesome.min.css')
     link(rel='stylesheet', href='/lib/jsoneditor/dist/jsoneditor.min.css')
-    // endbower
-    // bower:js
     script(src='/lib/jquery/dist/jquery.js')
     script(src='/lib/bootstrap/dist/js/bootstrap.js')
     script(src='/lib/jsoneditor/dist/jsoneditor.min.js')
-    // endbower
-    // inject:css
+    script(src='/lib/socket.io-client/dist/socket.io.js')
     link(rel='stylesheet', href='/css/style.css')
-    // endinject
-    // inject:js
-    // endinject
-    // Custom styles
     link(href='css/style.css', rel='stylesheet')
-    // <link rel="shortcut icon" href="img/favicon.ico">
   body
     nav.navbar.navbar-fixed-top.bg-primary
       .container.nav-cust.text-center
         h3 Inferenciador de Reglas
-    br
-    br
-    .container
-      .starter-template
-        .col-md-offset-6.col-md-4
-          ul.list-inline
-            li
-              a.btn.btn-info.btn-lg(href='#', data-toggle='modal', data-target='#myModal') Inferenciador
-            li
-              a.btn.btn-success.btn-lg(href='#', data-toggle='modal', data-target='#myModal2') Crear Regla
-    br
-    br
+    section#modals
+      .container
+        .starter-template
+          .col-md-offset-6.col-md-4
+            ul.list-inline
+              li
+                a.btn.btn-info.btn-lg(href='#', data-toggle='modal', data-target='#myModal') Inferenciador
+              li
+                a.btn.btn-success.btn-lg(href='#', data-toggle='modal', data-target='#myModal2') Crear Regla
     .container
       .row
         .col-md-offset-2.col-md-8
@@ -46,62 +34,124 @@ html(lang='en')
             tr
               th Identificador
               th Nombre
-              th Condición
+              th Condici&oacute;n
               th Operaciones
             tr
               td 9873149187341
               td Regla 1
-              td "Monto > 1400 & Comercio == Mac"
+              td &quot;Monto &gt; 1400 &amp; Comercio == Mac&quot;
               td
-                a(href='#') Editar 
-                a(href='#')  Eliminar
+                a.btn.btn-default(href='#')
+                  i.fa.fa-pencil-square-o(aria-hidden='true')
+                | &nbsp; &nbsp;
+                a.btn.btn-danger(href='#')
+                  i.fa.fa-times(aria-hidden='true')
             tr
               td 8287345239875
               td Regla 2
-              td "Monto > 1400 & Comercio == Mac"
+              td &quot;Monto &gt; 1400 &amp; Comercio == Mac&quot;
               td
-                a(href='#') Editar 
-                a(href='#')  Eliminar
+                a(href='#') Editar
+                |  
+                a(href='#') Eliminar
             tr
               td 8723495874234
               td Regla 3
-              td "Monto > 1400 & Comercio == Mac"
+              td &quot;Monto &gt; 1400 &amp; Comercio == Mac&quot;
               td
-                a(href='#') Editar 
-                a(href='#')  Eliminar
-    // Modal Inferenciador
+                a(href='#') Editar
+                |  
+                a(href='#') Eliminar
     #myModal.modal.fade(tabindex='-1', role='dialog', aria-labelledby='myModalLabel')
       .modal-dialog(role='document')
         .modal-content
           .modal-header
             button.close(type='button', data-dismiss='modal', aria-label='Close')
-              span(aria-hidden='true') ×
-            h4#myModalLabel.modal-title Modal title
+              span(aria-hidden='true') &times;
+            h4#myModalLabel.modal-title Guardar documentos JSON:
           .modal-body
-            | ...
+            p
+              | Subir documento JSON : 
+              input#loadDocument.btn.btn-default(type='file', value='Load')
+            #jsoneditor
+            script.
+              // create the editor
+              var editor = new JSONEditor(document.getElementById('jsoneditor'));
+              // Load a JSON document
+              FileReaderJS.setupInput(document.getElementById('loadDocument'), {
+              readAsDefault: 'Text',
+              on: {
+              load: function(event, file) {
+              editor.setText(event.target.result);
+              }
+              }
+              });
+              // Save a JSON document
+              document.getElementById('saveDocument').onclick = function() {
+              // Save Dialog
+              fname = window.prompt("Save as...");
+              // Check json extension in file name
+              if (fname.indexOf(".") == -1) {
+              fname = fname + ".json";
+              } else {
+              if (fname.split('.').pop().toLowerCase() == "json") {
+              // Nothing to do
+              } else {
+              fname = fname.split('.')[0] + ".json";
+              }
+              }
+              var blob = new Blob([editor.getText()], {
+              type: 'application/json;charset=utf-8'
+              });
+              saveAs(blob, fname);
+              };
           .modal-footer
-            button.btn.btn-success(type='button') Guardar Regla
+            button#saveDocument.btn.btn-success(type='button', value='Save') Guardar Regla
+            |  
             button.btn.btn-info(type='button', data-dismiss='modal') Listar Reglas
-    // Modal Crear Regla
     #myModal2.modal.fade(tabindex='-1', role='dialog', aria-labelledby='myModal2Label')
       .modal-dialog(role='document')
         .modal-content
           .modal-header
             button.close(type='button', data-dismiss='modal', aria-label='Close')
-              span(aria-hidden='true') ×
+              span(aria-hidden='true') &times;
             h4#myModal2Label.modal-title Probar Hecho
           .modal-body
-            // json editor
+            #jsoneditor2
+            script.
+              var container = document.getElementById('jsoneditor2');
+              var options = {
+              mode: 'tree',
+              modes: ['code', 'form', 'text', 'tree', 'view'], // allowed modes
+              onError: function(err) {
+              alert(err.toString());
+              },
+              onModeChange: function(newMode, oldMode) {
+              console.log('Mode switched from', oldMode, 'to', newMode);
+              }
+              };
+              var json = {
+              "array": [1, 2, 3],
+              "boolean": true,
+              "null": null,
+              "number": 123,
+              "object": {
+              "a": "b",
+              "c": "d"
+              },
+              "string": "Hello World"
+              };
+              var editor = new JSONEditor(container, options, json);
           .modal-footer
-            button.btn.btn-danger(type='button', data-dismiss='modal') Cancelar
+            button.btn.btn-danger(type='button', data-dismiss='modal') Close
+            |  
             button.btn.btn-primary(type='button') Enviar
-    // End of modals
-    // test of json editor
-    // /.container
-    //
-      Bootstrap core JavaScript
-      ==================================================
-    // Placed at the end of the document so the pages load faster
-    //
-      <script src="lib/jquery/dist/jquery.min.js"></script>
-      <script src="lib/bootstrap/dist/js/bootstrap.min.js"></script>
+    script.
+      var socket = io('http://localhost:5000');
+      socket.on('message-from-server', function(evt) {
+      document.body.appendChild(
+      document.createTextNode(evt.greeting));
+      socket.emit('message-from-client', {
+      greeting: 'Socket.io: Hello from Client'
+      });
+      });
